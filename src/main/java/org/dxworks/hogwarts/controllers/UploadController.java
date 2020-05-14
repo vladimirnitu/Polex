@@ -4,9 +4,6 @@ import com.google.gson.Gson;
 import org.dxworks.hogwarts.dto.ComponentDTO;
 import org.dxworks.hogwarts.dto.ComponentViewDTO;
 import org.dxworks.hogwarts.dto.ViewDTO;
-import org.dxworks.hogwarts.metamodel.Component;
-import org.dxworks.hogwarts.metamodel.ComponentSchema;
-import org.dxworks.hogwarts.metamodel.registries.ComponentSchemaRegistry;
 import org.dxworks.hogwarts.metamodel.transformer.ComponentModel;
 import org.dxworks.hogwarts.metamodel.transformer.ProjectModel;
 import org.dxworks.hogwarts.parser.model.ComponentConfig;
@@ -30,16 +27,16 @@ public class UploadController {
     private ProjectService projectService;
     @Autowired
     private ComponentService componentService;
-    @Autowired
-    private CompService compService;
+//    @Autowired
+//  //  private CompService compService;
     @Autowired
     private ProjectManager projectManager;
     @Autowired
     private ComponentManager componentManager;
-    @Autowired
-    private ComponentsRelationsService componentsRelationsService;
-    @Autowired
-    private ComponentSchemaRegistry componentSchemaRegistry;
+//    @Autowired
+//    private ComponentsRelationsService componentsRelationsService;
+//    @Autowired
+//    private ComponentSchemaRegistry componentSchemaRegistry;
 
 
     @PostMapping("/upload")
@@ -55,12 +52,14 @@ public class UploadController {
 
             projectService.addFileContentToProject(projectId, fileContent);
 
-            Config c = gson.fromJson(new InputStreamReader(f.getInputStream()), Config.class);
+            Config c    = gson.fromJson(new InputStreamReader(f.getInputStream()), Config.class);
             configs.add(c);
             System.out.println(c);
 
             ProjectModel projectModel = new ProjectModel(configs);
+            System.out.println("a");
             projectManager.addProject(projectId, projectModel);
+            System.out.println("b");
         }
     }
     // nu mai merge pe multiplu din cauza componentSchemaName
@@ -95,52 +94,53 @@ public class UploadController {
     @PostMapping("relationComponent")
     public void createRelationComponent(@RequestBody ComponentDTO body) {
         System.out.println(body);
-    }
+    }}
 
-    @GetMapping("View1")
-    public List<ViewDTO> getFirstView(@RequestParam("projectId") String projectId, @RequestParam("name") String name) {
 
-        // componentsRelationsService.newCreatedComponent(projectId, name);
-        List<String> componentNames = compService.getAllComponentNamesForComponentSchema(name);
-        List<ViewDTO> viewDTOList = new ArrayList<>();
-
-        for (String cn : componentNames) {
-            viewDTOList.add(compService.getQAFromFile(projectId, cn, name));
-            System.out.println(cn);
-        }
-
-        return viewDTOList;
-    }
-
-    @GetMapping("View2")
-    public List<ViewDTO> getSecondView(@RequestParam("projectId") String projectId, @RequestParam("componentSchema") String name, @RequestParam("qualityAspect") String qa) {
-        List<String> componentNames = compService.getAllComponentNamesForComponentSchema(name);
-        List<ViewDTO> viewDTOList = new ArrayList<>();
-
-        for (String cn : componentNames) {
-            viewDTOList.add(compService.getQIForEachQA(projectId, cn, qa, name));
-        }
-        return viewDTOList;
-    }
+//    @GetMapping("View1")
+//    public List<ViewDTO> getFirstView(@RequestParam("projectId") String projectId, @RequestParam("name") String name) {
 //
-//    @GetMapping("Test2")
-//    public Component getValueForQIController(@RequestParam("projectId") String pi, @RequestParam("comp") String comp) {
+//        // componentsRelationsService.newCreatedComponent(projectId, name);
+//        List<String> componentNames = compService.getAllComponentNamesForComponentSchema(name);
+//        List<ViewDTO> viewDTOList = new ArrayList<>();
 //
+//        for (String cn : componentNames) {
+//            viewDTOList.add(compService.getQAFromFile(projectId, cn, name));
+//            System.out.println(cn);
+//        }
 //
-//        // return componentsRelationsService.getExtraFilesNotContainedByComponents(pi, comp);
-//        return componentsRelationsService.newCreatedComponent(pi, comp);
+//        return viewDTOList;
 //    }
-
-//    @GetMapping("Test2")
-//    public List<Double> getValueForQIController(@RequestParam("e") String entityTypeString, @RequestParam("r") String relationType, @RequestParam("p") String projectId, @RequestParam("qi") String qualityIndicator) {
 //
-//        return relationsService.getValueForQI(entityTypeString, relationType, projectId, qualityIndicator);
-//    }
-
-//    @GetMapping("Test2")
-//    public Double getValuePerQualityIndicator(@RequestParam("p") String projectId, @RequestParam("c") String component, @RequestParam("qa") String qa, @RequestParam("qi") String qualityIndicator, @RequestParam("cs") String comp) {
+//    @GetMapping("View2")
+//    public List<ViewDTO> getSecondView(@RequestParam("projectId") String projectId, @RequestParam("componentSchema") String name, @RequestParam("qualityAspect") String qa) {
+//        List<String> componentNames = compService.getAllComponentNamesForComponentSchema(name);
+//        List<ViewDTO> viewDTOList = new ArrayList<>();
 //
-//        return compService.getValuePerQualityIndicator(projectId, component, qa, qualityIndicator, comp);
+//        for (String cn : componentNames) {
+//            viewDTOList.add(compService.getQIForEachQA(projectId, cn, qa, name));
+//        }
+//        return viewDTOList;
 //    }
-}
+////
+////    @GetMapping("Test2")
+////    public Component getValueForQIController(@RequestParam("projectId") String pi, @RequestParam("comp") String comp) {
+////
+////
+////        // return componentsRelationsService.getExtraFilesNotContainedByComponents(pi, comp);
+////        return componentsRelationsService.newCreatedComponent(pi, comp);
+////    }
+//
+////    @GetMapping("Test2")
+////    public List<Double> getValueForQIController(@RequestParam("e") String entityTypeString, @RequestParam("r") String relationType, @RequestParam("p") String projectId, @RequestParam("qi") String qualityIndicator) {
+////
+////        return relationsService.getValueForQI(entityTypeString, relationType, projectId, qualityIndicator);
+////    }
+//
+////    @GetMapping("Test2")
+////    public Double getValuePerQualityIndicator(@RequestParam("p") String projectId, @RequestParam("c") String component, @RequestParam("qa") String qa, @RequestParam("qi") String qualityIndicator, @RequestParam("cs") String comp) {
+////
+////        return compService.getValuePerQualityIndicator(projectId, component, qa, qualityIndicator, comp);
+////    }
+//}
 

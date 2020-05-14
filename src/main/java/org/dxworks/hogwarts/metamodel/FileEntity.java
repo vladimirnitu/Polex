@@ -1,30 +1,39 @@
 package org.dxworks.hogwarts.metamodel;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FileEntity {
 
-    private String name;
-    private Map<String, FileEntity> filesMap = new HashMap<>();
+    private String fileName;
+
+    public FileCharacteristics getFileCharacteristics() {
+        return fileCharacteristics;
+    }
+
+    public void setFileCharacteristics( FileCharacteristics fileCharacteristics ) {
+        this.fileCharacteristics = fileCharacteristics;
+    }
+
+    private FileCharacteristics fileCharacteristics;
 
     public FileEntity(String file) {
-        this.name = file;
+        this.fileName = file;
     }
 
-    public void addFile(FileEntity entity) {
-        filesMap.put(entity.getName(), entity);
-    }
+
 
     public String getName() {
-        return name;
+        return fileName;
     }
+    public boolean hasName( String name ) {
+        return Objects.equals(name , this.fileName);
+    }
+
 
     @Override
     public String toString() {
         return "FileEntity{" +
-                "name='" + name + '\'' +
-                ", filesMap=" + filesMap +
+                "name='" + fileName + '\'' +
                 '}';
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "projects")
+@Table(name = "projects1")
 public class ProjectEntity extends BaseEntity {
 
     @Column(unique = true)
